@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="app" class="mainContainer">
+        <header class="header">
+            <h1>{{sitename}}</h1>
+            <div>
+                <ul>
+                    <li><a href="#" @click='showMain = true; showProduct = false; showAbout = false'>Главная</a></li>
+                    <li><a href="#" @click='showProduct = true;showMain = false; showAbout = false'>Каталог</a></li>
+                    <li><a href="#" @click='showAbout = true; showProduct = false; showMain = false'>О компании</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <main class="mainGroup" v-show='showProduct'>
+            <div class="pictureParent">
+                <img v-bind:src="product.image" class="picture">
+            </div>
+            <div class="descreption">
+                <p v-html='product.title'></p>
+                <p>{{product.description}}<a href="#" @click='details = !details'>{{details ? 'Скрыть подробности':'Подробнее'}}</a></p>
+                <p v-show='details'>Prestigio Smartbook 141С - лёгкий и надёжный помощник для тех, кто ценит комфорт, эффективность и возможность продолжать работу, не привязываясь к определённому месту. Прослушивание музыки, просмотр фильма, обработка фотографий, программы
+                    Microsoft Office, - он справится со всем и сразу. Четырёхъядерный процессор Intel® Atom™ Z8350 с максимальной тактовой частотой 1,92 ГГц и 2 ГБ оперативной памяти позволяют Smartbook 141C эффективно работать в режиме многозадачности.
+                    На устройстве установлена новейшая операционная система Windows 10 Home. А приступить к работе можно уже через пару минут: на ноутбуке предустановлен Office Suite, поддерживающий работу со всеми форматами офисных файлов.</p>
+                <p>Производитель: {{product.manufacturer}}</p>
+                <p v-html='product.specifications'></p>
+                <p>Цена {{product.price | formatPrice}}</p>
+            </div>
+        </main>
+        <div v-show='showMain'>
+            <p>Главная</p>
+        </div>
+
+        <div v-show='showAbout'>
+            <p>О компании</p>
+        </div>
+    </div>
+
+    <script>
+        let webStore = new Vue({
+            el: "#app",
+            data: {
+                sitename: 'NoutShop.ru',
+                product: {
+                    id: 1,
+                    title: '<h2>Ноутбук Prestigio SmartBook 141C</h2>',
+                    description: 'Ноутбук для работы в офисе.',
+                    manufacturer: 'Prestigio',
+                    specifications: '<ul>Характеристики:<li>Процессор: Atom, Atom x5</li><li>Частота процессора: 1440 МГц</li><li>Количество ядер процессора: 4</li><li>Оперативная память: 2ГБ</li></ul>',
+                    image: './img/pop.png',
+                    price: '13 990'
+                },
+                details: false,
+                showMain: false,
+                showAbout: false,
+                showProduct: true
+            },
+            filters: {
+                formatPrice: function(val) {
+                    if (!val) return '';
+                    return val + " " + String.fromCharCode(8381);
+                }
+            },
+            methods: {
+
+            }
+        });
+    </script>
+</body>
+
+</html>
