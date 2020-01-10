@@ -1,5 +1,74 @@
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <base target="_blank">
+</head>
+
+<body>
+    <div id="app" style="display: flex;">
+        <div class="task1">
+            <div class='search'>
+                <input type="text" v-model='textSearch'>
+            </div>
+            <div class="articles">
+                <ul>
+                    <li v-for='article in getArticle' style="list-style-type: none;margin: 5px;">
+                        <a :href="article.url" style="text-decoration: none;">
+                            <span v-html='article.img'></span>
+                            <span>{{article.title}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="task2">
+            <p v-model='p_Data' @click='showInput = true' v-show='!showInput'>{{p_Data}}</p>
+            <input type="text" v-model='p_Data' v-show='showInput' @keyup.enter='showInput = false'>
+        </div>
+    </div>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                articles: [{
+                    title: 'Чемпионат мира по футболу 2018',
+                    url: 'https://ru.wikipedia.org/wiki/%D0%A7%D0%B5%D0%BC%D0%BF%D0%B8%D0%BE%D0%BD%D0%B0%D1%82_%D0%BC%D0%B8%D1%80%D0%B0_%D0%BF%D0%BE_%D1%84%D1%83%D1%82%D0%B1%D0%BE%D0%BB%D1%83_2018',
+                    img: '<img src="./img/cm.jpg" alt="NotFound" height = "200" width = "200"></img>'
+                }, {
+                    title: 'Путин, Владимир Владимирович',
+                    url: 'https://ru.wikipedia.org/wiki/%D0%9F%D1%83%D1%82%D0%B8%D0%BD,_%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B8%D1%87',
+                    img: '<img src="./img/putin.jpg" alt="NotFound" height = "200" width = "200"></img>'
+                }, {
+                    title: 'Россия',
+                    url: 'https://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F',
+                    img: '<img src="./img/rus.jpg" alt="NotFound" height = "200" width = "200"></img>'
+                }],
+                textSearch: '',
+                p_Data: 'Измени моё содержимое',
+                showInput: false
+            },
+            computed: {
+                getArticle() {
+                    let arr = [];
+                    let regExp = new RegExp(".*" + this.textSearch + ".*", "i")
+                    for (let i = 0; i < this.articles.length; i++) {
+                        if (regExp.test(this.articles[i].title)) {
+                            arr.push(this.articles[i]);
+                        }
+                    }
+                    return arr;
+                }
+            }
+        });
+    </script>
+</body>
+
+=======
     <head>
         <meta charset="utf-8">
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -41,4 +110,5 @@
          });
      </script>  
     </body>
+>>>>>>> 20488668102bea980257b22fb857eec90e22f409
 </html>
