@@ -4,6 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        .animation-slide {
+            transition: all 0.5s ease-out;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,7 +27,7 @@
                 }
             },
             template: `<div>
-            <div :style='{backgroundImage: "url(" + this.slides[currentSlide].src + ")", height:"800px",width:"800px"}' @click="getNextSlide"></div>
+            <div :style='{backgroundImage: "url(" + this.slides[currentSlide].src + ")", height:"800px",width:"800px"}' @click="getNextSlide" :class="{'animation-slide': true }"></div>
             </div>`,
             methods: {
                 getNextSlide() {
@@ -29,7 +35,6 @@
                     if (this.currentSlide === this.slides.length) {
                         this.currentSlide = 0;
                     }
-                    console.log(this.currentSlide);
                 }
             }
         });
