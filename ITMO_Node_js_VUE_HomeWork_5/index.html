@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <slider :slides='slides'></slider>
+
+    </div>
+    <script>
+        Vue.component('slider', {
+            props: ['slides'],
+            data: function() {
+                return {
+                    currentSlide: 0,
+                }
+            },
+            template: `<div>
+            <div :style='{backgroundImage: "url(" + this.slides[currentSlide].src + ")", height:"800px",width:"800px"}' @click="getNextSlide"></div>
+            </div>`,
+            methods: {
+                getNextSlide() {
+                    this.currentSlide++;
+                    if (this.currentSlide === this.slides.length) {
+                        this.currentSlide = 0;
+                    }
+                    console.log(this.currentSlide);
+                }
+            }
+        });
+        let app = new Vue({
+            el: "#app",
+            data: {
+                slides: [{
+                    src: './img/1.jpg'
+                }, {
+                    src: './img/2.jpg'
+                }, {
+                    src: './img/3.jpg'
+                }]
+            },
+            methods: {
+
+            }
+        });
+    </script>
+</body>
+
+</html>
