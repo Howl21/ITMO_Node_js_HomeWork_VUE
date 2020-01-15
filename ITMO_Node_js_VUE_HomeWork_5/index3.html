@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <galery :objfiles='objFiles' :addimage='addImage' :deleteimage='deleteImage'></galery>
+
+    </div>
+    <script>
+        Vue.component('galery', {
+            props: ['objfiles', 'addimage', 'deleteimage'],
+            data: function() {
+                return {
+                    descreption: '',
+                    src: ''
+                }
+            },
+            template: `<div>
+            Описание
+            <input type="text" v-model="descreption">
+            Путь
+            <input type="text" v-model="src">
+            <button @click="addimage({src, descreption})">Добавить</button>
+            <galeryimage v-for="(img,i) in objfiles":key="img.descreption" :CurentImg = 'img' :filesrc = 'img.src' :index = 'i' :del= 'deleteimage'></galeryimage>
+
+            </div>`,
+            methods: {
+
+            }
+        });
+        Vue.component('galeryimage', {
+            props: ["CurentImg", "filesrc", "index", 'del'],
+
+            template: `<div>
+                    <img :src="filesrc" alt = 'NotFound'>
+                    <p>{{CurentImg.descreption}}</p>
+                    <button @click="del(index)">Удалить</button>
+                </div>`
+        });
+        let app = new Vue({
+            el: "#app",
+            data: {
+                objFiles: [{
+                    src: './img/1.jpg',
+                    descreption: 'Картинка 1'
+                }, {
+                    src: './img/2.jpg',
+                    descreption: 'Картинка 2'
+                }, {
+                    src: './img/3.jpg',
+                    descreption: 'Картинка 3'
+                }]
+            },
+            methods: {
+                addImage(img) {
+                    this.objFiles.push(img);
+                },
+                deleteImage(i) {
+                    this.objFiles.splice(i, 1);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
