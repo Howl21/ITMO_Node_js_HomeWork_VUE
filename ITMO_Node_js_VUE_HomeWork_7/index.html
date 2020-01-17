@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
+
+    <style>
+        .main {
+            display: flex;
+            height: 80vh;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            overflow: auto;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 528px;
+        }
+        
+        .cell {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            border: 1px solid #aaa;
+            margin-right: -1px;
+            margin-bottom: -1px;
+        }
+        
+        .cell-move {
+            transition: transform 1s;
+        }
+        
+        .buttons {
+            height: 20vh;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            overflow: auto;
+        }
+        
+        button {
+            margin: 5px;
+            height: 50px;
+            width: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="main" id="main">
+            <transition-group name="cell" tag="div" class="container">
+                <div v-for="cell in cells" :key="cell.id" class="cell" :style='{color:(cell.check) ? "black" : cell.color,fontSize: (cell.check) ? "33px":cell.fontSize}' @click='changeCell(cell)'>
+                    {{ cell.number }}
+                </div>
+            </transition-group>
+        </div>
+
+        <div class="buttons">
+            <button @click="shuffle">
+                Перемешать
+              </button>
+            <button @click="newGame">
+                Новая игра
+              </button>
+        </div>
+
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                cells: [],
+                controlArray: []
+
+            },
+            methods: {
+                shuffle: function() {
+                    this.cells = _.shuffle(this.cells);
+                },
+                generateColor: function() {
+                    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+                },
+                generateFontSize: function() {
+                    return Math.floor(15 + Math.random() * (27 + 1 - 15)) + 'px';
+                },
+                getPlayZone: function() {
+                    for (let i = 1; i <= 100; i++) {
+                        this.cells.push({
+                            id: i,
+                            number: i,
+                            color: this.generateColor(),
+                            fontSize: this.generateFontSize(),
+                            check: false
+                        });
+                    }
+                },
+                changeCell: function(cell) {
+                    if (cell.number === 1 && this.controlArray.length === 0) {
+                        this.controlArray.push(cell.number);
+                        cell.check = true;
+                    } else if (cell.number === this.controlArray[this.controlArray.length - 1] + 1) {
+                        cell.check = true;
+                        this.controlArray.push(cell.number);
+                    }
+
+                    if (this.controlArray.length === 100) {
+                        alert('Конец игры');
+                        this.newGame();
+                    }
+                },
+                newGame: function() {
+                    this.controlArray.length = 0;
+                    this.cells.length = 0;
+                    this.getPlayZone();
+                }
+            },
+            created: function() {
+                this.getPlayZone();
+            }
+        })
+    </script>
+</body>
+
+</html>
